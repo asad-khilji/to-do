@@ -1,27 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do List</title>
-    <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To Do List</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1>To Do List</h1>
+      <p>Your simple personal task resolver.</p>
+      <button class="button" id="openAddForm">+ Add Task</button>
 
-<div class="container">
-    <h2>To Do List</h2>
+      <nav id="statusNav" aria-label="Task status filters">
+        <button class="active" data-status="All">All</button>
+        <button data-status="To Do">To Do</button>
+        <button data-status="In Progress">In Progress</button>
+        <button data-status="Waiting">Waiting</button>
+        <button data-status="Done">Done</button>
+      </nav>
 
-    <div class="input-group">
-        <input type="text" id="itemInput" placeholder="Add grocery item">
-        <button class="add-btn" onclick="addItem()">Add</button>
-    </div>
+      <div class="sidebar-tools">
+        <button class="ghost" id="exportJson">Export JSON</button>
+        <button class="ghost danger" id="resetData">Reset Data</button>
+      </div>
+    </aside>
 
-    <ul id="list"></ul>
+    <main>
+      <section class="hero">
+        <div>
+          <h2>Today’s Tasks</h2>
+          <p>Track your daily tasks in one calm place.</p>
+        </div>
+        <label class="search-label">
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Search title, category, notes..." />
+        </label>
+      </section>
 
-    <div class="count" id="count"></div>
-</div>
+      <section class="stats" aria-label="Task statistics">
+        <div><strong id="totalCount">0</strong><span>Total</span></div>
+        <div><strong id="urgentCount">0</strong><span>Urgent</span></div>
+        <div><strong id="waitingCount">0</strong><span>Waiting</span></div>
+        <div><strong id="doneCount">0</strong><span>Done</span></div>
+      </section>
 
-<script src="./script.js"></script>
-    
+      <section class="task-list" id="taskList" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <dialog id="taskDialog">
+    <form method="dialog" class="form-card" id="taskForm">
+      <h1 id="formTitle">Add Task</h1>
+      <input type="hidden" id="taskId" />
+
+      <label for="title">Title</label>
+      <input id="title" required placeholder="Cancel gym membership" />
+
+      <label for="description">Description</label>
+      <textarea id="description" placeholder="Add details, links, phone numbers, or notes"></textarea>
+
+      <label for="category">Category</label>
+      <input id="category" value="General" placeholder="Bills, Health, Renewal, Subscription" />
+
+      <div class="grid">
+        <div>
+          <label for="priority">Priority</label>
+          <select id="priority">
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+        <div>
+          <label for="status">Status</label>
+          <select id="status">
+            <option>To Do</option>
+            <option>In Progress</option>
+            <option>Waiting</option>
+            <option>Done</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="dueDate">Due Date</label>
+      <input type="date" id="dueDate" />
+
+      <label for="attachments">Attachments</label>
+      <input type="file" id="attachments" multiple />
+      <p class="hint">Static version stores attachment names in your browser only.</p>
+      <div id="currentAttachments" class="attachment-list"></div>
+
+      <label for="notifyTo">Email Notification</label>
+      <select id="notifyTo" multiple size="5">
+        <option value="ahmed@unikinternational.com">Ahmed</option>
+        <option value="asad@unikinternational.com">Asad</option>
+        <option value="awais@unikinternational.com">Awais</option>
+        <option value="zahra@unikinternational.com">Zahra</option>
+        <option value="zarnoosh@unikinternational.com">Zarnoosh</option>
+        <option value="jorge@unikinternational.com">Jorge</option>
+        <option value="fawad@unikinternational.com">Fawad</option>
+        <option value="production@unikinternational.com">Anjum</option>
+        <option value="shipping@unikinternational.com">Tammy</option>
+      </select>
+      <p class="hint">Email opens your email app with a status-change message.</p>
+
+      <div class="form-actions">
+        <button type="submit" id="saveTask">Save Task</button>
+        <button type="button" class="back" id="closeDialog">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
 </body>
 </html>
